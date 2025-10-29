@@ -16,7 +16,7 @@ app.UseHttpsRedirection();
 
 var summaries = new[]
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+    "Celeste", "Evangeline", "Cristal", "Asraela", "Zuly", "Azul", "Batman", "Escarpina", "Bruno", "Caramelo"
 };
 
 app.MapGet("/weatherforecast", () =>
