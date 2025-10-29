@@ -1,0 +1,6 @@
+@Beyond_HostAddress = http://localhost:5140
+
+GET {{Beyond_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
