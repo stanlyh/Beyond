@@ -1,6 +1,9 @@
-﻿namespace Beyond.Data
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace Beyond.Data
 {
-    public class DataContext
+    public class DataContext : DbContext
     {
+
     }
 }
