@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="Beyond.Shared/Beyond.Shared.csproj" Id="e7c34c71-b35c-44bb-9de7-24d641ecf136" />
+  <Project Path="Beyond.Web/Beyond.Web.csproj" />
   <Project Path="Beyond/Beyond.csproj" />
 </Solution>
