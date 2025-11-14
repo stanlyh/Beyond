@@ -1,59 +1,191 @@
-﻿@page "/"
+﻿@using MudBlazor.Services
+
+@page "/"
 
 <PageTitle>Home</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor and the .NET 9 Template!</MudText>
-
-<MudAlert Severity="Severity.Normal" ContentAlignment="HorizontalAlignment.Start">
-    You can find documentation and examples on our website here:
-    <MudLink Href="https://mudblazor.com" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        <b>www.mudblazor.com</b>
-    </MudLink>
-</MudAlert>
+<br />
+<MudAvatar Color="Color.Primary">M</MudAvatar>
+<MudAvatar Color="Color.Secondary">U</MudAvatar>
+<MudAvatar Color="Color.Tertiary">D</MudAvatar>
 
 <br />
-<MudText Typo="Typo.h5" GutterBottom="true">Interactivity in this Template</MudText>
 <br />
-<MudText Typo="Typo.body2">
-    When you opt for the "Global" Interactivity Location, <br />
-    the render modes are defined in App.razor and consequently apply to all child components.<br />
-    In this case, providers are globally set in the MainLayout.<br />
-    <br />
-    On the other hand, if you choose the "Per page/component" Interactivity Location,<br />
-    it is necessary to include the <br />
-    <br />
-    &lt;MudPopoverProvider /&gt; <br />
-    &lt;MudDialogProvider /&gt; <br />
-    &lt;MudSnackbarProvider /&gt; <br />
-    <br />
-    components on every interactive page.<br />
-    <br />
-    If a render mode is not specified for a page, it defaults to Server-Side Rendering (SSR),<br />
-    similar to this page. While MudBlazor allows pages to be rendered in SSR,<br />
-    please note that interactive features, such as buttons and dropdown menus, will not be functional.
-</MudText>
+<MudAvatar Color="Color.Info" Variant="Variant.Outlined">M</MudAvatar>
+<MudAvatar Color="Color.Success" Variant="Variant.Outlined">U</MudAvatar>
+<MudAvatar Color="Color.Warning" Variant="Variant.Outlined">D</MudAvatar>
 
 <br />
-<MudText Typo="Typo.h5" GutterBottom="true">What's New in Blazor with the Release of .NET 9</MudText>
 <br />
-
-<MudText Typo="Typo.h6" GutterBottom="true">Prerendering</MudText>
-<MudText Typo="Typo.body2" GutterBottom="true">
-    If you're exploring the features of .NET 9 Blazor,<br /> you might be pleasantly surprised to learn that each page is prerendered on the server,<br /> regardless of the selected render mode.<br /><br />
-    This means that you'll need to inject all necessary services on the server,<br /> even when opting for the wasm (WebAssembly) render mode.<br /><br />
-    This prerendering functionality is crucial to ensuring that WebAssembly mode feels fast and responsive,<br /> especially when it comes to initial page load times.<br /><br />
-    For more information on how to detect prerendering and leverage the RenderContext, you can refer to the following link:
-    <MudLink Href="https://github.com/dotnet/aspnetcore/issues/51468#issuecomment-1783568121" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        More details
-    </MudLink>
-</MudText>
+<MudAvatar Color="Color.Warning" Variant="Variant.Filled">
+    <MudIcon Color="Color.Dark" Icon="@Icons.Custom.Uncategorized.Radioactive" Size="Size.Large" />
+</MudAvatar>
+<MudAvatar Color="Color.Primary" Variant="Variant.Outlined">
+    <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" />
+</MudAvatar>
+<MudAvatar Color="Color.Secondary" Variant="Variant.Outlined">
+    <MudIcon Icon="@Icons.Material.Filled.FormatListNumbered" />
+</MudAvatar>
 
 <br />
-<MudText Typo="Typo.h6" GutterBottom="true">InteractiveAuto</MudText>
-<MudText Typo="Typo.body2">
-    A discussion on how to achieve this can be found here:
-    <MudLink Href="https://github.com/dotnet/aspnetcore/issues/51468#issue-1950424116" Target="_blank" Typo="Typo.body2" Color="Color.Primary">
-        More details
-    </MudLink>
-</MudText>
+<br />
+<MudGrid>
+    <MudItem md="3">
+        <MudPaper Class="pa-4" Elevation="0">
+            <MudText Typo="Typo.h6" GutterBottom="true">Test Options</MudText>
+            <MudSelect T="string" Label="Component" Margin="Margin.Dense" Dense="true" Value="@SelectedTestComponent" ValueChanged="OnSelectedTestComponent">
+                <MudSelectItem T="string" Value="@("MudIcon")">MudIcon</MudSelectItem>
+                <MudSelectItem T="string" Value="@("MudButton")">MudButton</MudSelectItem>
+                <MudSelectItem T="string" Value="@("MudIconButton")">MudIconButton</MudSelectItem>
+                <MudSelectItem T="string" Value="@("MudText")">MudText</MudSelectItem>
+                <MudSelectItem T="string" Value="@("MudAvatar")">MudAvatar</MudSelectItem>
+                <MudSelectItem T="string" Value="@("MudChip")">MudChip</MudSelectItem>
+            </MudSelect>
+        </MudPaper>
+    </MudItem>
+    <MudItem md="6" Class="d-flex align-center justify-center my-auto">
+        <MudBadge Origin="@Origin" Content="@BadgeContent" Color="Color.Primary" Overlap="@Overlap" Dot="@Dot" Bordered="@Bordered" Icon="@BadgeIcon">
+            @if (SelectedTestComponent == "MudIcon")
+            {
+                <MudIcon Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Default" Size="Size.Large" />
+            }
+            else if (SelectedTestComponent == "MudButton")
+            {
+                <MudButton Color="Color.Primary" Variant="Variant.Filled">MudButton</MudButton>
+            }
+            else if (SelectedTestComponent == "MudIconButton")
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.Email" Color="Color.Default" />
+            }
+            else if (SelectedTestComponent == "MudText")
+            {
+                <MudText>MudText</MudText>
+            }
+            else if (SelectedTestComponent == "MudAvatar")
+            {
+                <MudAvatar Size="Size.Large" Class="ma-2">
+                    <MudImage Src="images/mony.jpg" />
+                </MudAvatar>
+            }
+            else if (SelectedTestComponent == "MudChip")
+            {
+                <MudChip T="string" Label="true" Color="Color.Warning" Style="color:black;">Radioactive Areas</MudChip>
+            }
+        </MudBadge>
+    </MudItem>
+    <MudItem md="3">
+        <MudPaper Class="pa-4" Elevation="0">
+            <MudText Typo="Typo.h6" GutterBottom="true">Badge Options</MudText>
+            <MudSelect Label="Badge Origin" Margin="Margin.Dense" Dense="true" @bind-Value="Origin">
+                <MudSelectItem Value="Origin.TopLeft">TopLeft</MudSelectItem>
+                <MudSelectItem Value="Origin.TopCenter">TopCenter</MudSelectItem>
+                <MudSelectItem Value="Origin.TopRight">TopRight</MudSelectItem>
+                <MudSelectItem Value="Origin.CenterLeft">CenterLeft</MudSelectItem>
+                <MudSelectItem Value="Origin.CenterCenter">CenterCenter</MudSelectItem>
+                <MudSelectItem Value="Origin.CenterRight">CenterRight</MudSelectItem>
+                <MudSelectItem Value="Origin.BottomLeft">BottomLeft</MudSelectItem>
+                <MudSelectItem Value="Origin.BottomCenter">BottomCenter</MudSelectItem>
+                <MudSelectItem Value="Origin.BottomRight">BottomRight</MudSelectItem>
+            </MudSelect>
+            <MudCheckBox @bind-Value="Dot" Label="Dot" Color="Color.Primary" Style="width:100%;" />
+            <MudCheckBox @bind-Value="Overlap" Label="Overlap" Color="Color.Primary" Style="width:100%;" />
+            <MudCheckBox @bind-Value="Bordered" Label="Bordered" Color="Color.Primary" Style="width:100%;" />
+            <MudCheckBox T="bool" ValueChanged="AddIcon" Label="Icon" Color="Color.Primary" Style="width:100%;" />
+            <MudText Typo="Typo.subtitle2" Class="my-2">Badge Content</MudText>
+            <div style="display: flex;">
+                <MudButton OnClick="AddValue" Variant="Variant.Filled" Size="Size.Small" Color="Color.Primary" FullWidth="true" Class="mr-1">Add @AddNumber</MudButton>
+                <MudButton OnClick="ClearContent" Variant="Variant.Filled" Size="Size.Small" Color="Color.Secondary" FullWidth="true" Class="ml-1">Clear</MudButton>
+            </div>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+<MudPaper Class="doc-section-component-container">
+    <MudChart ChartType="ChartType.Bar" ChartSeries="@_series" @bind-SelectedIndex="_index" XAxisLabels="@_xAxisLabels" Width="@_width" Height="@_height" AxisChartOptions="_axisChartOptions"></MudChart>
+</MudPaper>
+
+<MudGrid>
+    <MudItem xs="6">
+        <MudText Typo="Typo.body1" Class="py-3">Selected: @(_index < 0 ? "None" : _series[_index].Name)</MudText>
+    </MudItem>
+    <MudItem md="6" xs="12">
+        <MudCheckBox @bind-Value="_axisChartOptions.MatchBoundsToSize" Color="Color.Primary" Label="MatchBoundsToSize"></MudCheckBox>
+    </MudItem>
+    <MudItem md="6" xs="12">
+        <MudTextField @bind-Value="_width" Label="Chart Width"></MudTextField>
+    </MudItem>
+    <MudItem md="6" xs="12">
+        <MudTextField @bind-Value="_height" Label="Chart Height"></MudTextField>
+    </MudItem>
+    <MudItem md="6" xs="12">
+        <MudStack>
+            <MudText Typo="Typo.body1">XAxis Label Rotation</MudText>
+            <MudSlider @bind-Value="_axisChartOptions.XAxisLabelRotation" Min="0" Max="90" Step="15"></MudSlider>
+        </MudStack>
+    </MudItem>
+</MudGrid>
+
+@code {
+    public Origin Origin { get; set; } = Origin.TopRight;
+    public bool Dot { get; set; }
+    public bool Overlap { get; set; }
+    public bool Bordered { get; set; }
+    public string BadgeIcon { get; set; }
+
+    public string SelectedTestComponent { get; set; } = "MudChip";
+    public string AddNumber { get; set; } = "1";
+
+    public int? BadgeContent { get; set; }
+
+    public void OnSelectedTestComponent(string value)
+    {
+        SelectedTestComponent = value;
+    }
+
+    public void AddIcon()
+    {
+        if (String.IsNullOrEmpty(BadgeIcon))
+        {
+            BadgeIcon = Icons.Custom.Uncategorized.Radioactive;
+        }
+        else
+        {
+            BadgeIcon = null;
+        }
+    }
+
+    public void AddValue()
+    {
+        if (BadgeContent == null)
+        {
+            AddNumber = "25";
+            BadgeContent = 1;
+        }
+        else
+        {
+            BadgeContent += 25;
+        }
+    }
+
+    public void ClearContent()
+    {
+        AddNumber = "1";
+        BadgeContent = null;
+    }
+
+
+
+    private int _index = -1; //default value cannot be 0 -> first selectedindex is 0.
+    private string _width = "650px";
+    private string _height = "350px";
+    private AxisChartOptions _axisChartOptions = new AxisChartOptions();
+
+    private List<ChartSeries> _series = new List<ChartSeries>()
+    {
+        new ChartSeries() { Name = "United States", Data = new double[] { 40, 20, 25, 27, 46, 60, 48, 80, 15 } },
+        new ChartSeries() { Name = "Germany", Data = new double[] { 19, 24, 35, 13, 28, 15, 13, 16, 31 } },
+        new ChartSeries() { Name = "Sweden", Data = new double[] { 8, 6, 11, 13, 4, 16, 10, 16, 18 } },
+    };
+    private string[] _xAxisLabels = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep" };
+
+}

@@ -1,8 +1,8 @@
-﻿using Beyond.Model;
+﻿using Beyond.Api.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Beyond.Data
+namespace Beyond.Api.Data
 {
     public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {

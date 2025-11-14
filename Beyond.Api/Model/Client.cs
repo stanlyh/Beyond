@@ -1,4 +1,4 @@
-﻿namespace Beyond.Model
+﻿namespace Beyond.Api.Model
 {
     public class Client
     {

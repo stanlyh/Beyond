@@ -12,19 +12,19 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Beyond/Beyond.csproj", "Beyond/"]
-RUN dotnet restore "./Beyond/Beyond.csproj"
+COPY ["Beyond.Api/Beyond.Api.csproj", "Beyond.Api/"]
+RUN dotnet restore "./Beyond.Api/Beyond.Api.csproj"
 COPY . .
-WORKDIR "/src/Beyond"
-RUN dotnet build "./Beyond.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Beyond.Api"
+RUN dotnet build "./Beyond.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Beyond.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Beyond.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Beyond.dll"]
+ENTRYPOINT ["dotnet", "Beyond.Api.dll"]
