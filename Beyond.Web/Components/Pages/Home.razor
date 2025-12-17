@@ -125,6 +125,43 @@
     </MudItem>
 </MudGrid>
 
+<MudButton Variant="Variant.Filled" DropShadow="false" Color="Color.Primary">Disable elevation</MudButton>
+
+<MudButton Variant="Variant.Text">Default</MudButton>
+<MudButton Variant="Variant.Text" Color="Color.Primary">Primary</MudButton>
+<MudButton Variant="Variant.Text" Color="Color.Secondary">Secondary</MudButton>
+<MudButton Variant="Variant.Text" Disabled="true">Disabled</MudButton>
+
+<MudButton Variant="Variant.Outlined">Default</MudButton>
+<MudButton Variant="Variant.Outlined" Color="Color.Primary">Primary</MudButton>
+<MudButton Variant="Variant.Outlined" Color="Color.Secondary">Secondary</MudButton>
+<MudButton Variant="Variant.Outlined" Disabled="true">Disabled</MudButton>
+
+<MudChipSet T="Color" @bind-SelectedValue="SelectedColor" CheckMark SelectionMode="@SelectionMode">
+    <MudChip Text="purple" Color="Color.Primary" Value="@Color.Primary">Primary</MudChip>
+    <MudChip Text="pink" Color="Color.Secondary" Value="@Color.Secondary">Secondary</MudChip>
+    <MudChip Text="blue" Color="Color.Info" Value="@Color.Info">Info</MudChip>
+    <MudChip Text="green" Color="Color.Success" Value="@Color.Success">Success</MudChip>
+    <MudChip Text="orange" Color="Color.Warning" Value="@Color.Warning">Warning</MudChip>
+    <MudChip Text="red" Color="Color.Error" Value="@Color.Error">Error</MudChip>
+    <MudChip Text="black" Color="Color.Dark" Value="@Color.Dark">Dark</MudChip>
+</MudChipSet>
+
+<div class="d-flex flex-column align-center">
+    @if (SelectedColor != default)
+    {
+        <MudText>You selected the <MudText Color="@SelectedColor" Inline>@SelectedColor.ToDescriptionString()</MudText> chip.</MudText>
+    }
+    else
+    {
+        <MudText>Nothing selected.</MudText>
+    }
+    <MudRadioGroup @bind-Value="SelectionMode">
+        <MudRadio Value="@SelectionMode.SingleSelection" Color="Color.Primary">SingleSelection</MudRadio>
+        <MudRadio Value="@SelectionMode.ToggleSelection" Color="Color.Primary">ToggleSelection</MudRadio>
+    </MudRadioGroup>
+</div>
+
 @code {
     public Origin Origin { get; set; } = Origin.TopRight;
     public bool Dot { get; set; }
@@ -187,5 +224,9 @@
         new ChartSeries() { Name = "Sweden", Data = new double[] { 8, 6, 11, 13, 4, 16, 10, 16, 18 } },
     };
     private string[] _xAxisLabels = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep" };
+
+
+    public SelectionMode SelectionMode = SelectionMode.SingleSelection;
+    public Color SelectedColor;
 
 }
