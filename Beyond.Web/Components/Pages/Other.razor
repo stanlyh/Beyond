@@ -1,0 +1,105 @@
+﻿@page "/other"
+
+<h3>Enviar Mensaje</h3>
+
+<div class="mb-3">
+    <label class="form-label">Canal de envío</label>
+    <select class="form-select" @bind="CanalSeleccionado">
+        <option value="">-- Selecciona un canal --</option>
+        <option value="SMS">SMS</option>
+        <option value="Email">Email</option>
+    </select>
+</div>
+
+@if (!string.IsNullOrEmpty(CanalSeleccionado))
+{
+    <div class="mb-3">
+        <label class="form-label">Plantilla</label>
+        <select class="form-select" @bind="PlantillaSeleccionadaId">
+            <option value="">-- Selecciona una plantilla --</option>
+            @foreach (var plantilla in PlantillasFiltradas)
+            {
+                <option value="@plantilla.Id">@plantilla.Nombre</option>
+            }
+        </select>
+    </div>
+}
+
+@if (PlantillaSeleccionada != null)
+{
+    <div class="mb-3">
+        <label class="form-label">Vista previa</label>
+        <textarea class="form-control" rows="5" readonly>
+@PlantillaSeleccionada.Contenido
+        </textarea>
+    </div>
+
+    <button class="btn btn-primary" @onclick="EnviarMensaje">
+        Enviar @CanalSeleccionado
+    </button>
+}
+
+@if (!string.IsNullOrEmpty(MensajeResultado))
+{
+    <div class="alert alert-success mt-3">
+        @MensajeResultado
+    </div>
+}
+
+@code {
+    private string? CanalSeleccionado;
+    private int? PlantillaSeleccionadaId;
+    private string? MensajeResultado;
+
+    private List<PlantillaMensaje> Plantillas = new()
+    {
+        new PlantillaMensaje
+        {
+            Id = 1,
+            Nombre = "Confirmación de cita (SMS)",
+            Canal = "SMS",
+            Contenido = "Tu cita ha sido confirmada para mañana a las 10:00."
+        },
+        new PlantillaMensaje
+        {
+            Id = 2,
+            Nombre = "Recordatorio de pago (SMS)",
+            Canal = "SMS",
+            Contenido = "Recuerda que tienes un pago pendiente. Gracias."
+        },
+        new PlantillaMensaje
+        {
+            Id = 3,
+            Nombre = "Bienvenida (Email)",
+            Canal = "Email",
+            Contenido = "Bienvenido a nuestra plataforma.\nGracias por registrarte."
+        },
+        new PlantillaMensaje
+        {
+            Id = 4,
+            Nombre = "Cambio de contraseña (Email)",
+            Canal = "Email",
+            Contenido = "Hemos recibido una solicitud para cambiar tu contraseña."
+        }
+    };
+
+    private IEnumerable<PlantillaMensaje> PlantillasFiltradas =>
+        Plantillas.Where(p => p.Canal == CanalSeleccionado);
+
+    private PlantillaMensaje? PlantillaSeleccionada =>
+        Plantillas.FirstOrDefault(p => p.Id == PlantillaSeleccionadaId);
+
+    private void EnviarMensaje()
+    {
+        // Aquí iría la lógica real de envío (API, servicio, etc.)
+        MensajeResultado = $"Mensaje enviado por {CanalSeleccionado} usando la plantilla '{PlantillaSeleccionada?.Nombre}'.";
+    }
+
+    private class PlantillaMensaje
+    {
+        public int Id { get; set; }
+        public string Nombre { get; set; } = "";
+        public string Canal { get; set; } = "";
+        public string Contenido { get; set; } = "";
+    }
+}

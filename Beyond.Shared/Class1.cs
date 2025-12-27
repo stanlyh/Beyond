@@ -5,19 +5,30 @@
 
     }
 
-    public sealed class SoilSensorSimulator 
+    public class RelationalPatterns
     {
-        private NatConnection _connection;
-        private readonly string _sensorId;
-        private readonly string _fieldId;
-        private readonly Random _random = new();
+        private int score = 65;
 
-        public SoilSensorSimulator(NatConnection connection, string sensorId, string fieldId)
+        public void CheckScore()
         {
-            _connection = connection;
-            _sensorId = sensorId;
-            _fieldId = fieldId;
+            if (score >= 60 && score <= 100)
+            {
+                Console.WriteLine("Passed");
+            }
+
+            if (score is >= 60 and <= 100)
+            {
+                Console.WriteLine("Passed");
+            }
         }
+    }
+
+    public sealed class SoilSensorSimulator(SoilSensorSimulator.NatConnection connection, string sensorId, string fieldId)
+    {
+        private NatConnection _connection = connection;
+        private readonly string _sensorId = sensorId;
+        private readonly string _fieldId = fieldId;
+        private readonly Random _random = new();
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
@@ -33,13 +44,21 @@
                 await _connection.PublishAsync(subject, reading, cancellationToken);
                 await Task.Delay(5000, cancellationToken); // Send data every 5 seconds
             }
+
         }
 
-        private class NatConnection
+        public class NatConnection
         {
             internal async Task PublishAsync(string subject, SoilMouistureReading reading, CancellationToken cancellationToken)
             {
-                throw new NotImplementedException();
+                // Simulate publishing the reading to a message broker
+                // In a real implementation, this would involve sending the data to a messaging system
+                await Task.Run(() =>
+                {
+                    // Simulated delay for publishing
+                    Thread.Sleep(1000);
+                    Console.WriteLine($"Published to {subject}: {reading.MoinsturePercent}% moisture");
+                }, cancellationToken);
             }
         }
 
@@ -57,6 +76,8 @@
                 moinsturePercent = MoinsturePercent;
                 timestampUtc = TimestampUtc;
             }
+
+            public double MoinsturePercent => moinsturePercent;
         }
     }
 }

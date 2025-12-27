@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks.Sources;
 
 namespace Beyond.Shared
 {
@@ -51,5 +52,7 @@ namespace Beyond.Shared
         //var ejemplo = new ExpresionLambda();
         //ejemplo.Ejecutar(); // Output: El número natural es: 10
 
-    }
+    }    
+
 }
+
